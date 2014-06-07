@@ -23,13 +23,13 @@ public class Application extends Controller {
     /**
      * Display the chat room.
      */
-    public static Result chatRoom(String username, String roomName) {
-        if(username == null || username.trim().equals("") || roomName == null || roomName.trim().equals("")) {
+    public static Result chatRoom(String username, String roomname) {
+        if(username == null || username.trim().equals("") || roomname == null || roomname.trim().equals("")) {
             flash("error", "Please choose a valid username and room name.");
             return redirect(routes.Application.index());
         }
         
-        return ok(chatRoom.render(username, roomName));
+        return ok(chatRoom.render(username, roomname));
     }
 
     public static Result chatRoomJs(String username, String roomName) {
