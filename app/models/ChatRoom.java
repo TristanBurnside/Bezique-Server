@@ -191,7 +191,7 @@ public class ChatRoom extends UntypedActor {
     private void pingAll(){
     	for(WebSocket.Out<JsonNode> channel: members.values()) {
     		ObjectNode event = Json.newObject();
-            event.put("kind", "ping");
+            event.put("ping", "ping");
             channel.write(event);
     	}
     }

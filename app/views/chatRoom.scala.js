@@ -23,7 +23,7 @@ $(function() {
         } else {
             $("#onChat").show()
         }
-		if(data.kind != 'ping') {
+		if(data.kind) {
         // Create the message element
         var el = $('<div class="message"><span></span><p></p></div>')
         $("span", el).text(data.user)
