@@ -12,7 +12,7 @@ public class FunctionalTest {
         running(fakeApplication(), new Runnable() {
             @Override
             public void run() {
-                Result result = callAction(controllers.routes.ref.Application.chatRoomJs("'"));
+                Result result = callAction(controllers.routes.ref.Application.chatRoomJs("'","1"));
                 assertThat(status(result)).isEqualTo(OK);
                 assertThat(contentType(result)).isEqualTo("text/javascript");
             }
@@ -24,7 +24,7 @@ public class FunctionalTest {
         running(fakeApplication(), new Runnable() {
             @Override
             public void run() {
-                Result result = callAction(controllers.routes.ref.Application.chatRoomJs("'"));
+                Result result = callAction(controllers.routes.ref.Application.chatRoomJs("'","0"));
                 assertThat(contentAsString(result)).contains("if(data.user == '\\'')");
             }
         });

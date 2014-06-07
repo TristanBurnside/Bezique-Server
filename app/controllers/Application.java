@@ -23,23 +23,23 @@ public class Application extends Controller {
     /**
      * Display the chat room.
      */
-    public static Result chatRoom(String username) {
-        if(username == null || username.trim().equals("")) {
-            flash("error", "Please choose a valid username.");
+    public static Result chatRoom(String username, String roomName) {
+        if(username == null || username.trim().equals("") || roomName == null || roomName.trim().equals("")) {
+            flash("error", "Please choose a valid username and room name.");
             return redirect(routes.Application.index());
         }
         
-        return ok(chatRoom.render(username));
+        return ok(chatRoom.render(username, roomName));
     }
 
-    public static Result chatRoomJs(String username) {
-        return ok(views.js.chatRoom.render(username));
+    public static Result chatRoomJs(String username, String roomName) {
+        return ok(views.js.chatRoom.render(username, roomName));
     }
     
     /**
      * Handle the chat websocket.
      */
-    public static WebSocket<JsonNode> chat(final String username) {
+    public static WebSocket<JsonNode> chat(final String username, final String chatroom) {
         return new WebSocket<JsonNode>() {
             
             // Called when the Websocket Handshake is done.
@@ -47,7 +47,7 @@ public class Application extends Controller {
                 
                 // Join the chat room.
                 try { 
-                    ChatRoom.join(username, in, out);
+                    ChatRoom.join(username, Integer.valueOf(chatroom), in, out);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
