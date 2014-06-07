@@ -61,20 +61,15 @@ public class ChatRoom extends UntypedActor {
     Map<String, WebSocket.Out<JsonNode>> members = new HashMap<String, WebSocket.Out<JsonNode>>();
   
     public ChatRoom(int roomNumber){
+    	super();
     	room = String.valueOf(roomNumber);
     	roomChannel = room + CHANNEL;
     	roomMemberList = room + MEMBERS;
-    	listener = new ChatRoomListener(getSelf());
-    	Akka.system().scheduler().scheduleOnce(
-    	        Duration.create(10, TimeUnit.MILLISECONDS),
-    	        new Runnable() {
-    	            public void run() {
-    	            	Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();    	            	
-    	            	j.subscribe(listener, roomChannel);
-    	            }
-    	        },
-    	        Akka.system().dispatcher()
-    	);
+    	listener = new ChatRoomListener(this.getSelf());
+
+    	Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();    	            	
+    	j.subscribe(listener, roomChannel);
+    	
     	//add the robot
     	new Robot(this.getSelf());
     }
@@ -132,11 +127,9 @@ public class ChatRoom extends UntypedActor {
         
         // When the socket is closed.
         in.onClose(new Callback0() {
-           public void invoke() {
-               
+           public void invoke() {          
                // Send a Quit message to the room.
                removeUser(username);
-               
            }
         });
     }
