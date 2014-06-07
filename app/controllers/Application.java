@@ -25,7 +25,7 @@ public class Application extends Controller {
      */
     public static Result chatRoom(String username, String roomname) {
         if(username == null || username.trim().equals("") || roomname == null || roomname.trim().equals("")) {
-            flash("error", "Please choose a valid username and room name.");
+            flash("error", "Please choose a valid username and room name. You chose:" + username + " and " + roomname);
             return redirect(routes.Application.index());
         }
         
