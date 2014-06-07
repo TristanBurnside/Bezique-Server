@@ -69,6 +69,7 @@ public class ChatRoom extends UntypedActor {
 
     	Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();    	            	
     	j.subscribe(listener, roomChannel);
+    	play.Play.application().plugin(RedisPlugin.class).jedisPool().returnResource(j);
     	
     	//add the robot
     	new Robot(this.getSelf());
