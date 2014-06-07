@@ -200,17 +200,6 @@ public class ChatRoom extends UntypedActor {
     		ObjectNode event = Json.newObject();
             event.put("kind", "ping");
             channel.write(event);
-            ArrayNode m = event.putArray("members");
-            
-            //Go to Redis to read the full roster of members. Push it down with the message.
-            Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();
-            try {
-            	for(String u: j.smembers(roomMemberList)) {
-            		m.add(u);
-            	}
-            } finally {
-            	play.Play.application().plugin(RedisPlugin.class).jedisPool().returnResource(j);            		   
-            }
     	}
     }
     

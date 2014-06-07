@@ -23,7 +23,7 @@ $(function() {
         } else {
             $("#onChat").show()
         }
-
+		if(data.kind != 'ping') {
         // Create the message element
         var el = $('<div class="message"><span></span><p></p></div>')
         $("span", el).text(data.user)
@@ -39,6 +39,7 @@ $(function() {
             li.textContent = this;
             $("#members").append(li);
         })
+        }
     }
 
     var handleReturnKey = function(e) {
