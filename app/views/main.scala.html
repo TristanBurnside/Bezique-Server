@@ -1,4 +1,4 @@
-@(connected: String)(roomname: String)(content: Html)
+@(connected: String)(room: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -19,7 +19,7 @@
                     
                     @if(connected != null) {
                         <p class="pull-right">
-                            Logged in as @connected —
+                            Logged in as @connected in room @room —
                             <a href="@routes.Application.index()">Disconnect</a>
                         </p>
                     } else {
