@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                                controllers.Application.index()
-GET     /room                            controllers.Application.chatRoom(username: String ?= null,roomName: String ?= null)
+GET     /room                            controllers.Application.chatRoom()
 GET     /room/chat                       controllers.Application.chat(username, roomName)
 GET     /assets/javascripts/chatroom.js  controllers.Application.chatRoomJs(username, roomName)
 

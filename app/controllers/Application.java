@@ -2,6 +2,9 @@ package controllers;
 
 import models.ChatRoom;
 import play.api.Play;
+import play.api.data.Forms;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
@@ -23,7 +26,10 @@ public class Application extends Controller {
     /**
      * Display the chat room.
      */
-    public static Result chatRoom(String username, String roomname) {
+    public static Result chatRoom() {
+    	DynamicForm requestData = Form.form().bindFromRequest();
+        String username = requestData.get("username");
+        String roomname = requestData.get("roomname");
         if(username == null || username.trim().equals("") || roomname == null || roomname.trim().equals("")) {
             flash("error", "Please choose a valid username and room name. You chose:" + username + " and " + roomname);
             return redirect(routes.Application.index());
