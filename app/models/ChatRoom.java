@@ -166,7 +166,7 @@ public class ChatRoom extends UntypedActor {
         		// Received a Join message
         		Join join = (Join)message;
         		// Check if this username is free.
-        		if(j.sismember(MEMBERS, join.username)) {
+        		if(j.sismember(roomMemberList, join.username)) {
         			getSender().tell("This username is already used", getSelf());
         		} else {
         			addUser(join.username, j, join.in, join.out);
@@ -200,6 +200,17 @@ public class ChatRoom extends UntypedActor {
     		ObjectNode event = Json.newObject();
             event.put("kind", "ping");
             channel.write(event);
+            ArrayNode m = event.putArray("members");
+            
+            //Go to Redis to read the full roster of members. Push it down with the message.
+            Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();
+            try {
+            	for(String u: j.smembers(roomMemberList)) {
+            		m.add(u);
+            	}
+            } finally {
+            	play.Play.application().plugin(RedisPlugin.class).jedisPool().returnResource(j);            		   
+            }
     	}
     }
     
@@ -217,7 +228,7 @@ public class ChatRoom extends UntypedActor {
             //Go to Redis to read the full roster of members. Push it down with the message.
             Jedis j = play.Play.application().plugin(RedisPlugin.class).jedisPool().getResource();
             try {
-            	for(String u: j.smembers(MEMBERS)) {
+            	for(String u: j.smembers(roomMemberList)) {
             		m.add(u);
             	}
             } finally {
